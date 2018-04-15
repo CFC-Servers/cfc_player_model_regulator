@@ -1,18 +1,19 @@
--- Hold
-
 local defaultModel = "models/player/kleiner.mdl"
 local prohibitedModels = {}
 prohibitedModels["models/player/skeleton.mdl"] = true
-prohibitedModels["models/player/corpse1.mdl"] = true
+prohibitedModels["models/player/corpse1.mdl"]  = true
+prohibitedModels["models/player/charple.mdl"]  = true
 
-local function regulateModel( player )
-  local modelIsProhibited = prohibitedModels[player:GetModel()]
-  
-  if( modelIsProhibited ) then
-    player:ChatPrint( "Your selected model is prohibited, defaulting to "..defaultModel )
-    player:SetModel( defaultModel )
-  end
+local playerMeta = FindMetaTable("Player")
+local entityMeta = FindMetaTable("Entity")
+local oldSetModel = entityMeta.SetModel
+
+function playerMeta:SetModel(desiredModel)
+	local modelIsProhibited = prohibitedModels[desiredModel]
+	
+	if( modelIsProhibited ) then
+		return oldSetModel(self, defaultModel)
+	end
+	
+	return oldSetModel(self, desiredModel)
 end
-
-hook.Remove("PlayerSetModel", "cfc_player_model_regulator")
-hook.Add("PlayerSetModel", "cfc_player_model_regulator", regulateModel)
