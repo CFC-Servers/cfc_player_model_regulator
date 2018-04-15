@@ -12,7 +12,11 @@ function playerMeta:SetModel(desiredModel)
 	local modelIsProhibited = prohibitedModels[desiredModel]
 	
 	if( modelIsProhibited ) then
-		return oldSetModel(self, defaultModel)
+		local playerIsInPvP = self:GetNWBool("PVPMode", false)
+		
+		if( playerIsInPvP ) then
+			return oldSetModel(self, defaultModel)
+		end
 	end
 	
 	return oldSetModel(self, desiredModel)
