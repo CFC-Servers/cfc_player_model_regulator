@@ -2,7 +2,6 @@ local defaultModel = "models/player/kleiner.mdl"
 
 local modelIsProhibited = {}
 modelIsProhibited["models/player/skeleton.mdl"] = true
-modelIsProhibited["models/player/corpse1.mdl"]  = true
 modelIsProhibited["models/player/charple.mdl"]  = true
 
 local playerMeta = FindMetaTable("Player")
