@@ -9,7 +9,7 @@ local entityMeta = FindMetaTable("Entity")
 local setModel = entityMeta.SetModel
 
 function playerMeta:SetModel(desiredModel)
-	local model = modelIsProhibited[desiredModel] and defaultModel or desiredModel end
+	local model = ( modelIsProhibited[desiredModel] and defaultModel ) or desiredModel end
 
 	return setModel(self, model)
 end
