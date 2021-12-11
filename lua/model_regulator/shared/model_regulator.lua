@@ -10,8 +10,6 @@ for name, model in pairs( originalList ) do
 end
 
 player_manager._AllValidModels = player_manager.AllValidModels
-player_manager._TranslatePlayerModel = player_manager.TranslatePlayerModel
-player_manager._TranslateToPlayerModelName = player_manager.TranslateToPlayerModelName
 
 function player_manager.AllValidModels()
     return modelList
