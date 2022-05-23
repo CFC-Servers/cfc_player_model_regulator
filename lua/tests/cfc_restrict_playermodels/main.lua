@@ -26,9 +26,6 @@ return {
         func = function()
             finalModel = testSetModel( badModel )
 
-            print( "testModel: ", badModel, "expectedModel: ", defaultModel, "finalModel: ", finalModel )
-            print( table.ToString( expect( finalModel ) ) )
-
             expect( finalModel ).to.eq( defaultModel )
         end
     },
@@ -37,21 +34,7 @@ return {
         func = function()
             finalModel = testSetModel( goodModel )
 
-            print( "testModel: ", goodModel, "expectedModel: ", goodModel, "finalModel: ", finalModel )
-            print( table.ToString( expect( finalModel ) ) )
-
             expect( finalModel ).to.eq( goodModel )
         end
-    },
-    {
-        name = "This is a failing test.",
-        func = function()
-            finalModel = testSetModel( badModel )
-
-            print( "testModel: ", badModel, "falselyExpectedModel: ", badModel, "finalModel: ", finalModel )
-            print( table.ToString( expect( finalModel ) ) )
-
-            expect( finalModel ).to.eq( badModel )
-        end
-    },
+    }
 }
