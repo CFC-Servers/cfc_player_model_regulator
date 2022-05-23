@@ -43,4 +43,15 @@ return {
             expect( finalModel ).to.eq( goodModel )
         end
     },
+    {
+        name = "This is a failing test.",
+        func = function()
+            finalModel = testSetModel( badModel )
+
+            print( "testModel: ", badModel, "falselyExpectedModel: ", badModel, "finalModel: ", finalModel )
+            print( table.ToString( expect( finalModel ) ) )
+
+            expect( finalModel ).to.eq( badModel )
+        end
+    },
 }
