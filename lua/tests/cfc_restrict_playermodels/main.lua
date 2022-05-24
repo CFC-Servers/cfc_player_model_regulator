@@ -22,17 +22,17 @@ end
 
 return {
     {
-        name = "It should replace undesireable playermodels with the default.",
+        name = "It should replace undesireable playermodels with the default",
         func = function()
-            finalModel = testSetModel( badModel )
+            local finalModel = testSetModel( badModel )
 
             expect( finalModel ).to.eq( defaultModel )
         end
     },
     {
-        name = "It should leave good playermodels unchanged.",
+        name = "It should leave good playermodels unchanged",
         func = function()
-            finalModel = testSetModel( goodModel )
+            local finalModel = testSetModel( goodModel )
 
             expect( finalModel ).to.eq( goodModel )
         end
