@@ -12,11 +12,11 @@ return {
         state.finalModel = ""
     end,
 
-    setup = function( state )
+    beforeAll = function( state )
         state._SetModel = entityMeta.SetModel
     end,
 
-    cleanup = function( state )
+    afterAll = function( state )
         entityMeta.SetModel = state._SetModel
     end,
 
