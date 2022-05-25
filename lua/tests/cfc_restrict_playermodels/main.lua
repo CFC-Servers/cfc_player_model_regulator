@@ -2,39 +2,40 @@ local defaultModel = "models/player/kleiner.mdl"
 local badModel = "models/player/skeleton.mdl"
 local goodModel = "models/player/group01/male_07.mdl"
 
-local function testSetModel( requestedModel )
-    local finalModel = ""
-
-    local playerMeta = FindMetaTable( "Player" )
-    local entityMeta = FindMetaTable( "Entity" )
-
-    local ogSetModel = entityMeta.SetModel
-
-    entityMeta.SetModel = function( self, mdl )
-        finalModel = mdl
-    end
-
-    playerMeta.SetModel( {}, requestedModel ) -- Apply subject function
-    entityMeta.SetModel = ogSetModel -- Revert
-
-    return finalModel
-end
+local playerMeta = FindMetaTable( "Player" )
+local entityMeta = FindMetaTable( "Entity" )
 
 return {
-    {
-        name = "It should replace undesireable playermodels with the default",
-        func = function()
-            local finalModel = testSetModel( badModel )
+    groupName = "SetModel",
 
-            expect( finalModel ).to.eq( defaultModel )
-        end
-    },
-    {
-        name = "It should leave good playermodels unchanged",
-        func = function()
-            local finalModel = testSetModel( goodModel )
+    beforeEach = function( state )
+        state.finalModel = ""
+    end,
 
-            expect( finalModel ).to.eq( goodModel )
-        end
+    setup = function( state )
+        state._SetModel = entityMeta.SetModel
+    end,
+
+    cleanup = function( state )
+        entityMeta.SetModel = state._SetModel
+    end,
+
+    cases = {
+        {
+            name = "It should replace undesireable playermodels with the default",
+            func = function( state )
+                playerMeta.SetModel( {}, badModel )
+
+                expect( state.finalModel ).to.eq( defaultModel )
+            end
+        },
+        {
+            name = "It should leave good playermodels unchanged",
+            func = function( state )
+                playerMeta.SetModel( {}, goodModel )
+
+                expect( state.finalModel ).to.eq( goodModel )
+            end
+        }
     }
 }
