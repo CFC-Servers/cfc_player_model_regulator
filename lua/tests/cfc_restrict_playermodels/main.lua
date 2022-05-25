@@ -15,8 +15,6 @@ return {
 
         entityMeta.SetModel = function( self, mdl )
             finalModel = mdl
-
-            return _SetModel( self, mdl )
         end
     end,
 
