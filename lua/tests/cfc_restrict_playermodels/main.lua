@@ -42,12 +42,6 @@ return {
 
                 expect( finalModel ).to.eq( goodModel )
             end
-        },
-        {
-            name = "This is a failure",
-            func = function( state )
-                expect( false ).to.beTrue()
-            end
         }
     }
 }
