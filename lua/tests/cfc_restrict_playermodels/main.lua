@@ -13,7 +13,7 @@ return {
     beforeAll = function()
         _SetModel = entityMeta.SetModel
 
-        entityMeta.SetModel = function( self, mdl )
+        entityMeta.SetModel = function( _, mdl )
             finalModel = mdl
         end
     end,
@@ -22,14 +22,14 @@ return {
         entityMeta.SetModel = _SetModel
     end,
 
-    beforeEach = function( state )
+    beforeEach = function()
         finalModel = ""
     end,
 
     cases = {
         {
             name = "It should replace undesireable playermodels with the default",
-            func = function( state )
+            func = function()
                 playerMeta.SetModel( {}, badModel )
 
                 expect( finalModel ).to.eq( defaultModel )
@@ -37,7 +37,7 @@ return {
         },
         {
             name = "It should leave good playermodels unchanged",
-            func = function( state )
+            func = function()
                 playerMeta.SetModel( {}, goodModel )
 
                 expect( finalModel ).to.eq( goodModel )
