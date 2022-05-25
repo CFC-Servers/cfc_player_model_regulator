@@ -4,20 +4,28 @@ local goodModel = "models/player/group01/male_07.mdl"
 
 local playerMeta = FindMetaTable( "Player" )
 local entityMeta = FindMetaTable( "Entity" )
+local _SetModel
+local finalModel
 
 return {
     groupName = "SetModel",
 
+    beforeAll = function()
+        _SetModel = entityMeta.SetModel
+
+        entityMeta.SetModel = function( self, mdl )
+            finalModel = mdl
+
+            return _SetModel( self, mdl )
+        end
+    end,
+
+    afterAll = function()
+        entityMeta.SetModel = _SetModel
+    end,
+
     beforeEach = function( state )
-        state.finalModel = ""
-    end,
-
-    beforeAll = function( state )
-        state._SetModel = entityMeta.SetModel
-    end,
-
-    afterAll = function( state )
-        entityMeta.SetModel = state._SetModel
+        finalModel = ""
     end,
 
     cases = {
@@ -26,7 +34,7 @@ return {
             func = function( state )
                 playerMeta.SetModel( {}, badModel )
 
-                expect( state.finalModel ).to.eq( defaultModel )
+                expect( finalModel ).to.eq( defaultModel )
             end
         },
         {
@@ -34,7 +42,7 @@ return {
             func = function( state )
                 playerMeta.SetModel( {}, goodModel )
 
-                expect( state.finalModel ).to.eq( goodModel )
+                expect( finalModel ).to.eq( goodModel )
             end
         }
     }
