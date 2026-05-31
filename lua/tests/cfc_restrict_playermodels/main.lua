@@ -5,23 +5,24 @@ local goodModel = "models/player/group01/male_07.mdl"
 local playerMeta = FindMetaTable( "Player" )
 local entityMeta = FindMetaTable( "Entity" )
 local _SetModel
-local _IsInPvp
 local finalModel
+
+local pvpPlayer      = { IsInPvp = function() return true end }
+local buildmodePlayer = { IsInPvp = function() return false end }
 
 return {
     groupName = "SetModel",
 
     beforeAll = function()
         _SetModel = entityMeta.SetModel
-        _IsInPvp = playerMeta.IsInPvp
         entityMeta.SetModel = function( _, mdl )
             finalModel = mdl
         end
+        CFCPvp = true
     end,
 
     afterAll = function()
         entityMeta.SetModel = _SetModel
-        playerMeta.IsInPvp = _IsInPvp
         CFCPvp = nil
     end,
 
@@ -33,10 +34,7 @@ return {
         {
             name = "PvP player: it should replace prohibited playermodels with the default",
             func = function()
-                CFCPvp = true
-                playerMeta.IsInPvp = function() return true end
-
-                playerMeta.SetModel( {}, badModel )
+                playerMeta.SetModel( pvpPlayer, badModel )
 
                 expect( finalModel ).to.eq( defaultModel )
             end
@@ -44,10 +42,7 @@ return {
         {
             name = "PvP player: it should leave non-prohibited playermodels unchanged",
             func = function()
-                CFCPvp = true
-                playerMeta.IsInPvp = function() return true end
-
-                playerMeta.SetModel( {}, goodModel )
+                playerMeta.SetModel( pvpPlayer, goodModel )
 
                 expect( finalModel ).to.eq( goodModel )
             end
@@ -55,10 +50,7 @@ return {
         {
             name = "Buildmode player: it should leave prohibited playermodels unchanged",
             func = function()
-                CFCPvp = true
-                playerMeta.IsInPvp = function() return false end
-
-                playerMeta.SetModel( {}, badModel )
+                playerMeta.SetModel( buildmodePlayer, badModel )
 
                 expect( finalModel ).to.eq( badModel )
             end
@@ -66,10 +58,7 @@ return {
         {
             name = "Buildmode player: it should leave non-prohibited playermodels unchanged",
             func = function()
-                CFCPvp = true
-                playerMeta.IsInPvp = function() return false end
-
-                playerMeta.SetModel( {}, goodModel )
+                playerMeta.SetModel( buildmodePlayer, goodModel )
 
                 expect( finalModel ).to.eq( goodModel )
             end
