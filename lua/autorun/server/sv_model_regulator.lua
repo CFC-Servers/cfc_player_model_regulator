@@ -9,7 +9,12 @@ local playerMeta = FindMetaTable( "Player" )
 local entityMeta = FindMetaTable( "Entity" )
 
 function playerMeta:SetModel( desiredModel )
-    local model = ( modelIsProhibited[desiredModel] and defaultModel ) or desiredModel
+    local model
+    if CFCPvp and playerMeta.IsInPvp( self ) then
+        model = ( modelIsProhibited[desiredModel] and defaultModel ) or desiredModel
+    else
+        model = defaultModel
+    end
 
     return entityMeta.SetModel( self, model )
 end
