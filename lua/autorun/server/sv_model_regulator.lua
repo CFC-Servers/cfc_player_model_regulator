@@ -18,3 +18,10 @@ function playerMeta:SetModel( desiredModel )
 
     return entityMeta.SetModel( self, model )
 end
+
+hook.Add( "CFC_PvP_PlayerEnterPvp", "CFC_PvP_PlayerEnterPvp_ModelRegulator", function( ply )
+    if not IsValid( ply ) then return end
+    local currModel = ply:GetModel()
+    if not modelIsProhibited[currModel] then return end
+    ply:SetModel( currModel )
+end )
