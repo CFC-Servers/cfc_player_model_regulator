@@ -13,15 +13,13 @@ function playerMeta:SetModel( desiredModel )
     if CFCPvp and playerMeta.IsInPvp( self ) then
         model = ( modelIsProhibited[desiredModel] and defaultModel ) or desiredModel
     else
-        model = defaultModel
+        model = desiredModel
     end
 
     return entityMeta.SetModel( self, model )
 end
 
 hook.Add( "CFC_PvP_PlayerEnterPvp", "CFC_PvP_PlayerEnterPvp_ModelRegulator", function( ply )
-    if not IsValid( ply ) then return end
-
     local currModel = ply:GetModel()
     if not modelIsProhibited[currModel] then return end
 
