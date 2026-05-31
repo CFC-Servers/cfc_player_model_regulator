@@ -5,6 +5,7 @@ local goodModel = "models/player/group01/male_07.mdl"
 local playerMeta = FindMetaTable( "Player" )
 local entityMeta = FindMetaTable( "Entity" )
 local _SetModel
+local _IsInPvp
 local finalModel
 
 return {
@@ -12,14 +13,20 @@ return {
 
     beforeAll = function()
         _SetModel = entityMeta.SetModel
+        _IsInPvp = playerMeta.IsInPvp
 
         entityMeta.SetModel = function( _, mdl )
             finalModel = mdl
         end
+
+        CFCPvp = true
+        playerMeta.IsInPvp = function() return true end
     end,
 
     afterAll = function()
         entityMeta.SetModel = _SetModel
+        playerMeta.IsInPvp = _IsInPvp
+        CFCPvp = nil
     end,
 
     beforeEach = function()
